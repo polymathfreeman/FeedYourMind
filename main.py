@@ -38,16 +38,69 @@ def ol():
     result += "\t</ol>\n"
     return result
 
+def labels():
+    label_name = input("Label's name: ")
+    label_value = input("Label's value")
+    result = f'\t\t<label for="{label_name}">{label_value}:</label><br>\n'
+    input_types = {
+        'button': input_button(),
+        'checkbox': input_checkbox(),
+        "color": input_color(),
+        "date": input_date(),
+        "datetime-local": input_datetime(),
+        "email": input_email(),
+        "file": input_file(),
+        "hidden": input_hidden(),
+        "image": input_image(),
+        "month": input_month(),
+        "number": input_number(),
+        "password": input_password(),
+        "radio": input_radio(),
+        "input_range": input_range(),
+        "reset": input_reset(),
+        "search": input_search(),
+        "submit": input_submit(),
+        "tel": input_tel(),
+        "text": input_text(),
+        "time": input_time(),
+        "url": input_url(),
+        "week": input_week()
+    }
+    look_at_types = input("Do you want to look at what types are available? Yes|No ")
+    if look_at_types in {"yes", "YES", 'y', 'Y'}:
+        for k, v in input_types: print(k, v)
+            
+    input_type = input("Input type = ")
+    result += f'\t\t<input type="{input_type}" id="{label_name}" name="{label_name}" value="{label_value}"><br>\n'
+    
+def forms():
+    result = '\t<form action="/action_page.php">\n'
+    result+= labels()
+    result += '\t</form>\n'
+    return result 
+
 def audio():
     result = '\t<audio controls autoplay muted>\n'
     audio_file_name = input("Nom du fichier audio : ")
     point_index = audio_file_name.index('.')
     audio_type = audio_file_name[point_index + 1:]
     result += f'\t\t<source src="{audio_file_name}" type="audio/{audio_type}">\n'
-    result += '\tYour browser does not support the audio element.\n'
+    result += '\t\tYour browser does not support the audio element.\n'
     result += '\t</audio>\n'
     return result
 
+def video():
+    width = int(input("width = "))
+    height = int(input("height = "))
+    result = f'\t<video width="{width}" height="{height}" autoplay muted>\n'
+    video_file_name = input("Nom du fichier vidéo : ")
+    point_index = video_file_name.index('.')
+    video_type = video_file_name[point_index + 1:]
+    result += f'\t\t<source src="{video_file_name}" type="video/{video_type}">\n'
+    result += '\t\tYour browser does not support the video tag.\n'
+    result += '\t</video>\n'
+    return result
+    
 def body():
     html_body = '''
 \t<body>
@@ -73,6 +126,7 @@ def body():
         elif choix == '2': html_body += ul()
         elif choix == '3': html_body += ol()
         elif choix == '7': html_body += audio()
+        elif choix == '8': html_body += video()    
         elif choix.upper() == 'Q': 
             choix = False
             html_body += "</body>\n</html>"
