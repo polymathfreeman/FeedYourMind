@@ -41,13 +41,12 @@ def ol():
 def input_type(type_label):
     label_for = input("label for= ")
     inside_label = input("inside label = ")
-    result = f'<label for="{label_for}"{inside_label}:</label><br>'
+    result = f'\t\t<label for="{label_for}"{inside_label}:</label><br>\n'
     id = input("id = ")
     name = input("name = ")
-    result += f'<input type="{type_label}" id="{id}" name="{name}">'
+    result += f'\t\t<input type="{type_label}" id="{id}" name="{name}">\n\n'
     return result     
     
-
 
     
 def labels():
@@ -58,14 +57,30 @@ def labels():
     }
     look_at_types = input("Do you want to look at what types are available? Yes|No ")
     if look_at_types in {"yes", "YES", 'y', 'Y'}:
-        for k, v in input_types: print(k, v)
+        for it in input_types: print(it)
+        w3schools = "https://www.w3schools.com/html/html_form_input_types.asp"
+        mdn = "https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types"
+        docs = {mdn, w3schools}
+        print("More details on:")
+        for help in docs: print(help)
             
-    input_type = input("Input type = ")
-    
+    it = input("Input type = ")
+    if it in input_types:
+        return input_type(type_label=it)
+    else:
+        while it not in input_types:
+            print("Choose from that list")
+            for it in input_types: print(it)
+            it = input("Input type = ")
+            if it in input_types: return input_type(type_label=it)
     
 def forms():
     result = '\t<form action="/action_page.php">\n'
-    result+= labels()
+    cond = True
+    while cond:
+        choix = input("Do you want to add a label/input type? Y|N ")
+        if choix in {'y', 'Y', "yes", "Yes"}: result+= labels()
+        else: cond = False
     result += '\t</form>\n'
     return result 
 
@@ -90,15 +105,111 @@ def video():
     result += '\t\tYour browser does not support the video tag.\n'
     result += '\t</video>\n'
     return result
-    
-def body():
-    html_body = '''
-\t<body>
-'''
+
+def header():
+    html_header = '''
+\t<header>\n
+    '''
+    menu = """
+    1) Titre de niveau h(n)
+    Q) Quitter
+    Votre choix : """
+    choix = True
+    while choix:
+        choix = input(menu)
+        if choix == '1': 
+            n = int(input("Niveau du titre h(n), n = "))
+            html_header += "\t" + h(n)
+        elif choix.upper() == 'Q': 
+            choix = False
+            html_header += "\t</header>\n\n"
+    return html_header
+
+def nav():
+    html_nav = '''
+\t<nav>\n
+    '''
     menu = """
     1) Titre de niveau h(n)
     2) Liste non ordonnée ul
     3) Liste ordonnée ol
+    4) Formulaire
+    Q) Quitter
+    Votre choix : """
+    choix = True
+    while choix:
+        choix = input(menu)
+        if choix == '1': 
+            n = int(input("Niveau du titre h(n), n = "))
+            html_nav += "\t" + h(n)
+        elif choix == '2': html_nav += ul()
+        elif choix == '3': html_nav += ol()
+        elif choix == '4': html_nav += forms()
+        elif choix.upper() == 'Q': 
+            choix = False
+            html_nav += "\t</nav>\n\n"
+    return html_nav
+
+
+def a_url(img=False):
+    html_a = """
+\t<a\n\thref="""
+    href = input("href = ")
+    html_a += href + " target=_blank>\n\t"
+    if img: visible = img()
+    else: visible = input("Texte visible : ")
+    html_a += visible + "\n\t</a>\n"
+    return html_a
+
+
+def paragraph():
+    html_p = """
+\t<p>\n"""
+    continuer = True
+    while continuer:
+        ligne = input("Écrivez une linge (80 caractères max) : ")
+        html_p += "\t\t" + ligne + "\n"
+        url = input("Voulez-vous insérer un lien url ? Oui|Non ")
+        if url in {'o', 'O', 'oui', 'Oui'}: html_p += a_url()
+        continuer = input("Continuer ? Oui|Non ")
+        if continuer in {'n', 'N', 'non', 'Non'}:
+            continuer = False
+            print("Fin du paragraphe.")
+            html_p += "\t</p>\n"
+    return html_p
+
+
+def img():
+    html_img = '''
+\t<img src='''
+    src = input("src = ")
+    html_img += src + ' '
+    alt = input("alt = ")
+    html_img += alt + "/>\n"
+    return html_img
+
+
+    
+def article_section(a_or_s):
+    menu = """
+    1) Titre de niveau h(n)
+    """
+    
+    if a_or_s == "article":
+        html_a_or_s = '''
+\t<article>\n
+    '''
+        menu += """
+        2) section"""
+    elif a_or_s == "section":
+        html_a_or_s = '''
+\t<section>\n
+    ''' 
+        menu += """
+        2) article"""
+        
+    menu += """
+    3) Paragraph p
     4) Lien URL a
     5) Image (sans lien URL) img
     6) Image (avec lien URL) img
@@ -112,17 +223,110 @@ def body():
         choix = input(menu)
         if choix == '1': 
             n = int(input("Niveau du titre h(n), n = "))
-            html_body += h(n)
-        elif choix == '2': html_body += ul()
-        elif choix == '3': html_body += ol()
-        elif choix == '7': html_body += audio()
-        elif choix == '8': html_body += video()    
+            html_a_or_s += h(n)
+        elif choix == '2': article_section()
+        elif choix == '3': html_a_or_s += paragraph()
+        elif choix == '4': html_a_or_s += a_url()
+        elif choix == '5': html_a_or_s += img()
+        elif choix == '6': html_a_or_s += a_url(img=True)
+        elif choix == '7': html_a_or_s += audio()
+        elif choix == '8': html_a_or_s += video()
+        elif choix == '9': html_a_or_s += forms()
         elif choix.upper() == 'Q': 
             choix = False
-            html_body += "</body>\n</html>"
+            if a_or_s == "article": html_a_or_s += "\t</article>\n\n"
+            elif a_or_s == "section": html_a_or_s += "\t</section>\n\n"
+    return html_a_or_s
+    
+
+def aside():
+    html_aside = """
+\t<aside>\n
+"""
+
+    menu = """
+    1) Titre de niveau h(n)
+    2) Paragraph p
+    3) Lien URL a
+    4) Image (sans lien URL) img
+    5) Image (avec lien URL) img
+    6) Audio
+    7) Vidéo
+    8) Formulaire
+    Q) Quitter
+    Votre choix : """
+    choix = True
+    while choix:
+        choix = input(menu)
+        if choix == '1': 
+            n = int(input("Niveau du titre h(n), n = "))
+            html_aside += h(n)
+        elif choix == '2': html_aside += paragraph()
+        elif choix == '3': html_aside += a_url()
+        elif choix == '4': html_aside += img()
+        elif choix == '5': html_aside += a_url(img=True)
+        elif choix == '6': html_aside += audio()
+        elif choix == '7': html_aside += video()
+        elif choix == '8': html_aside += forms()
+        elif choix.upper() == 'Q': 
+            choix = False
+            html_aside += "\t</aside>\n\n"
+    return html_aside
+    
+def main():
+    html_main = '''
+\t<main>\n
+    '''
+    menu = """
+    1) Titre de niveau h(n)
+    2) article
+    3) section
+    4) aside
+    Q) Quitter
+    Votre choix : """
+    choix = True
+    while choix:
+        choix = input(menu)
+        if choix == '1': 
+            n = int(input("Niveau du titre h(n), n = "))
+            html_main += "\t" + h(n)
+        elif choix in '2': 
+            a_or_s = "article"
+            html_main += article_section(a_or_s)
+        elif choix in '3': 
+            a_or_s = "section"
+            html_main += article_section(a_or_s)
+        elif choix == '4': html_main += aside()
+        elif choix.upper() == 'Q': 
+            choix = False
+            html_main += "\t</main>\n\n"
+    return html_main
+
+
+    
+def body():
+    html_body = '''
+\t<body>
+'''
+    menu = """
+    1) Header
+    2) Nav
+    3) Main
+    4) Footer
+    Q) Quitter
+    Votre choix : """
+    choix = True
+    while choix:
+        choix = input(menu)
+        if choix == '1': html_body += header()
+        elif choix == '2': html_body += nav()
+        elif choix == '3': html_body += main()
+        elif choix.upper() == 'Q': 
+            choix = False
+            html_body += "</body>\n"
     return html_body
 
-html_template += body()
+html_template += body() + "\n</html>\n"
 print(html_template)
 
 
