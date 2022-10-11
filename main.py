@@ -38,40 +38,30 @@ def ol():
     result += "\t</ol>\n"
     return result
 
+def input_type(type_label):
+    label_for = input("label for= ")
+    inside_label = input("inside label = ")
+    result = f'<label for="{label_for}"{inside_label}:</label><br>'
+    id = input("id = ")
+    name = input("name = ")
+    result += f'<input type="{type_label}" id="{id}" name="{name}">'
+    return result     
+    
+
+
+    
 def labels():
-    label_name = input("Label's name: ")
-    label_value = input("Label's value")
-    result = f'\t\t<label for="{label_name}">{label_value}:</label><br>\n'
     input_types = {
-        'button': input_button(),
-        'checkbox': input_checkbox(),
-        "color": input_color(),
-        "date": input_date(),
-        "datetime-local": input_datetime(),
-        "email": input_email(),
-        "file": input_file(),
-        "hidden": input_hidden(),
-        "image": input_image(),
-        "month": input_month(),
-        "number": input_number(),
-        "password": input_password(),
-        "radio": input_radio(),
-        "input_range": input_range(),
-        "reset": input_reset(),
-        "search": input_search(),
-        "submit": input_submit(),
-        "tel": input_tel(),
-        "text": input_text(),
-        "time": input_time(),
-        "url": input_url(),
-        "week": input_week()
+        'button','checkbox', "color", "date", "datetime-local", "email", "file",
+        "hidden", "image", "month", "number", "password", "radio", "input_range",
+        "reset", "search", "submit", "tel", "text", "time", "url", "week"
     }
     look_at_types = input("Do you want to look at what types are available? Yes|No ")
     if look_at_types in {"yes", "YES", 'y', 'Y'}:
         for k, v in input_types: print(k, v)
             
     input_type = input("Input type = ")
-    result += f'\t\t<input type="{input_type}" id="{label_name}" name="{label_name}" value="{label_value}"><br>\n'
+    
     
 def forms():
     result = '\t<form action="/action_page.php">\n'
