@@ -7,10 +7,10 @@ def article_section(a_or_s):
     
     if a_or_s == "article":
         html_a_or_s = '''\n\t<article>\n'''
-        menu += """2) section\n"""
+        menu += """\t2) section"""
     elif a_or_s == "section":
         html_a_or_s = '''\n\t\t<section>\n''' 
-        menu += """2) article\n"""
+        menu += """\t2) article"""
         
     menu += """
     3) Paragraph p
@@ -31,13 +31,13 @@ def article_section(a_or_s):
         if choix == '1': 
             n = int(input("Niveau du titre h(n), n = "))
             html_a_or_s += body_of_html_page.h(n)
-        elif choix == '2': body_of_html_page.article_section()
+        elif choix == '2': html_a_or_s += article_section(a_or_s)
         elif choix == '3': html_a_or_s += body_of_html_page.paragraph()
         elif choix == '4': html_a_or_s += body_of_html_page.a_url()
         elif choix == '5': html_a_or_s += body_of_html_page.choose_img()
         elif choix == '6': html_a_or_s += body_of_html_page.choose_list()    
-        elif choix == '7': html_a_or_s += body_of_html_page.audio()
-        elif choix == '8': html_a_or_s += body_of_html_page.video()
+        elif choix == '7': html_a_or_s += audio()
+        elif choix == '8': html_a_or_s += video()
         elif choix == '9': html_a_or_s += body_of_html_page.forms()
         elif choix.upper() == 'Q': 
             choix = False

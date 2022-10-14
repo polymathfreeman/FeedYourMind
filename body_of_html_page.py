@@ -103,6 +103,8 @@ def paragraph():
     while continuer:
         ligne = input("Écrivez une linge (80 caractères max) : ")
         html_p += "\t\t" + ligne + "\n"
+        breakline = input("Voulez-vous que le texte aille à la ligne ? (Y|N) ")
+        if breakline == 'Y': html_p += "\t\t<br>\n"
         url = input("Voulez-vous insérer un lien url ? Oui|Non ")
         if url in {'o', 'O', 'oui', 'Oui'}: html_p += a_url()
         continuer = input("Continuer ? Oui|Non ")
@@ -130,6 +132,13 @@ def choose_img():
     elif link.upper() == 'N': return img_tag()
     
 
+def footer():
+    copyleft = """
+    <footer>
+      <p>©Copyleft until 2140 by Satoshi Nakamoto. All rights reversed.</p>
+    </footer>
+    """
+    return copyleft
     
 def body():
     html_body = '''
@@ -148,6 +157,7 @@ def body():
         if choix == '1': html_body += header()
         elif choix == '2': html_body += nav()
         elif choix == '3': html_body += main()
+        elif choix == '4': html_body += footer()
         elif choix.upper() == 'Q': 
             choix = False
             html_body += "</body>\n"
